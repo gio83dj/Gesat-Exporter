@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h2>Ricerca Schede:</h2>
+<input type="text" id="inputTag" value="CVIN01">
+<button type="button" onclick="loadXMLDoc()">
+Cerca CODICE CLIENTE</button>
+
+<p id="demo"></p>
+
+<script>
+function loadXMLDoc() {
+	
+  var xmlhttp = new XMLHttpRequest()
+  xmlhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      cercaScheda(this)
+    }
+  };
+  xmlhttp.open("GET", "output.xml", true)
+  xmlhttp.send()
+}
+
+function cercaScheda(xml) {
+  var code_search, i,  txt
+  var input_tag_value = document.getElementById("inputTag").value;
+  txt = ""
+  
+  code_search = xml.responseXML.getElementsByTagName("cod")
+  
+  for (i = 0; i< code_search.length; i++) {
+  	
+	if (code_search[i].childNodes[0].nodeValue == input_tag_value) {  		//Cerca il valore del nodo
+		//console.log("TROVATO")											//Se lo trova stampa su console 
+		
+		try { 
+			cod = xml.responseXML.getElementsByTagName("cod")[i]
+			//console.log(code_search[i].childNodes[0].nodeValue)
+			txt += "Codice Cliente: " + code_search[i].childNodes[0].nodeValue + "<br>"
+		}catch(e) {console.log(e.message)}
+		
+		try { 
+			numsch = xml.responseXML.getElementsByTagName("numscheda")
+			//console.log(numsch[i].childNodes[0].nodeValue)
+			txt += "Numero di Scheda: " + numsch[i].childNodes[0].nodeValue + "<br>"
+		}catch(e) {console.log(e.message)}
+		
+		try { 
+			nome = xml.responseXML.getElementsByTagName("nome")
+			//console.log(nome[i].childNodes[0].nodeValue)
+			txt += "Nome Cliente: " + nome[i].childNodes[0].nodeValue + "<br>"
+		}catch(e) {console.log(e.message)}
+		
+		try { 
+			mod = xml.responseXML.getElementsByTagName("mod")
+			//console.log(mod[i].childNodes[0].nodeValue)
+			txt += "Modello Apparecchio: " + mod[i].childNodes[0].nodeValue + "<br>"
+		}catch(e) {console.log(e.message)}
+		
+		try { 
+			matr = xml.responseXML.getElementsByTagName("matr")
+			//console.log(matr[i].childNodes[0].nodeValue)
+			txt += "Matricola: " + matr[i].childNodes[0].nodeValue + "<br>"
+		}catch(e) {console.log(e.message)}
+			
+		
+		try { 
+			serial = xml.responseXML.getElementsByTagName("serial")
+			//console.log(serial[i].childNodes[0].nodeValue)
+			txt += "Seriale: " + serial[i].childNodes[0].nodeValue + "<br>"
+		}catch(e) {console.log(e.message)}
+		
+		try { 
+			accessori = xml.responseXML.getElementsByTagName("accessori")
+			//console.log(accessori[i].childNodes[0].nodeValue)
+			txt += "Accessori in dotazione: " + accessori[i].childNodes[0].nodeValue + "<br>"
+		}catch(e) {console.log(e.message)}
+		
+		try { 
+			difetto = xml.responseXML.getElementsByTagName("difetto")
+			//console.log(difetto[i].childNodes[0].nodeValue)
+			txt += "Difetto: " + difetto[i].childNodes[0].nodeValue + "<br>"
+		}catch(e) {console.log(e.message)}
+		
+		try { 
+			stato = xml.responseXML.getElementsByTagName("stato")
+			valStato = stato[i].childNodes[0].nodeValue
+			//console.log(stato[i].childNodes[0].nodeValue)
+			
+			if (valStato == "NN") {
+				txt += "STATO: NESSUNO <br>"
+			}else if (valStato == "RIC") {
+				txt += "STATO: ATTESA RICAMBI <br>"
+				}else if (valStato == "ATT") {
+				txt += "STATO: ATTESA SOSTITUZIONE <br>"
+				}else if (valStato == "RIE") {
+				txt += "STATO: ATTESA RIENTRO DA CENTRO ASSISTENZA ESTERNO <br>"
+				}else if (valStato == "SPE") {
+				txt += "STATO: DA SPEDIRE <br>"
+				}else if (valStato == "SPI") {
+				txt += "STATO: SPEDITO AL CENTRO ASSISTENZA ESTERNO <br>"}
+		}catch(e) {console.log(e.message)}
+		
+		txt += '-------------------------------' + "<br>"
+		//txt += code_search[i].childNodes[0].nodeValue + "<br>"			//Aggiunge la stringa alla variabile txt
+	}
+  }
+  document.getElementById("demo").innerHTML = txt
+}
+</script>
+
+</body>
+</html>
