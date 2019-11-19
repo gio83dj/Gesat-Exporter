@@ -1,3 +1,6 @@
+# QUESTO PROGRAMMA CARICA IL FILE DBF IN MEMORIA E POI LO TRASCRIVE IN XML
+
+
 """  FORMATI
  OrderedDict([
  -('SCHEDA', 2327), 
@@ -55,7 +58,7 @@ from collections import OrderedDict
 #root = tree.getroot()
 
 print ('Sto caricando le schede in memoria, attendere...')
-# --- caricati dbf ---
+# --- carica dbf ---
 table = DBF('SCHEDA.dbf', encoding='iso-8859-1', load=True)
 
 print()
@@ -64,23 +67,14 @@ print('Caricati numero di schede su ATTUALE: ' + str(len(table)))
 print()
 print()
 
-def print_options():
-    print ("Scegli:")
-    print (" 'p' Visualizza opzioni")
-    print (" '1' Stampa a video il contenuto del file dbf")
-    print (" '2' Legge una particolare scheda")
-    print (" '3' Stampa a video ultime schede")
-    print (" '4' Esporta XML")
-    print (" 'q' Esce dal programma")
-
 
 i = input('Stampare le ultime schede, inserire numero di inserimenti dall ultima: ')
-xi = i
-lung = len(table)
-i = lung - int(i)
+schedetot = i
+lungtot = len(table)
+i = lungtot - int(i)                   # PARTE A CONTARE TOT CHEDE PRIMA DELLA FINE 
 
 
-while i < lung:
+while i < lungtot:
     od = OrderedDict(table.records[i])
     print (i)
     print ('Numero scheda: ' + str(od['SCHEDA']))                
@@ -100,47 +94,48 @@ while i < lung:
 
 
 
-doc = ET.parse("schedeinput.xml")
-root_node = doc.getroot()
+#doc = ET.parse("schedeinput.xml")
+#root_node = doc.getroot()                                  # NON FACCIO PIU IL PARSING DA FILE XML MA DA DATA COSI' ELIMINO IL FILE DI INPUT
+xmldata = "<schedeTot></schedeTot>"
+root_node = ET.fromstring(xmldata)
 
-xx = lung - int(xi)
-while xx < lung:
+indice = lungtot - int(schedetot)
+while indice < lungtot:
     child = ET.SubElement(root_node, "scheda")
-    # child.set("attributo1","valore")                      # PER SETTARE UN ATTRIBUTO DEL TAG
-    od = OrderedDict(table.records[xx])
+    # child.set("attributo1","valore")                      # PER SETTARE UN ATTRIBUTO DEL TAG (NON MI SERVE AL MOMENTO
+    od = OrderedDict(table.records[indice])
     
-    group  = ET.SubElement(child,"numscheda")
-    group.text = str(od['SCHEDA'])
+    subelemento  = ET.SubElement(child,"numscheda")
+    subelemento.text = str(od['SCHEDA'])
     
-    group  = ET.SubElement(child,"cod")
-    group.text = str(od['CODCLI'])
+    subelemento  = ET.SubElement(child,"cod")
+    subelemento.text = str(od['CODCLI'])
     
-    group  = ET.SubElement(child,"nome")
-    group.text = str(od['DESCCLI'])
+    subelemento  = ET.SubElement(child,"nome")
+    subelemento.text = str(od['DESCCLI'])
     
-    group  = ET.SubElement(child,"mod")
-    group.text = str(od['MODELLO'])
+    subelemento  = ET.SubElement(child,"mod")
+    subelemento.text = str(od['MODELLO'])
     
-    group  = ET.SubElement(child,"matr")
-    group.text = str(od['MATRICOLA'])
+    subelemento  = ET.SubElement(child,"matr")
+    subelemento.text = str(od['MATRICOLA'])
     
-    group  = ET.SubElement(child,"serial")
-    group.text = str(od['SERIALE'])
+    subelemento  = ET.SubElement(child,"serial")
+    subelemento.text = str(od['SERIALE'])
     
-    group  = ET.SubElement(child,"accessori")
-    group.text = str(od['ACCESSORI'])
+    subelemento  = ET.SubElement(child,"accessori")
+    subelemento.text = str(od['ACCESSORI'])
     
-    group  = ET.SubElement(child,"difetto")
-    group.text = str(od['NOTE'])
+    subelemento  = ET.SubElement(child,"difetto")
+    subelemento.text = str(od['NOTE'])
     
-    group  = ET.SubElement(child,"stato")
-    group.text = str(od['UT_STATO'])
+    subelemento  = ET.SubElement(child,"stato")
+    subelemento.text = str(od['UT_STATO'])
     
     tree = ET.ElementTree(root_node)
     
-    
     #print(od['SCHEDA'])
-    #print (xx)
-    xx = xx + 1
+    #print (indice)
+    indice = indice + 1
     
 tree.write('output.xml')

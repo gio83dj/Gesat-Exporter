@@ -1,3 +1,5 @@
+# QUESTO PROGRAMMA CARICA IL FILE DBF IN MEMORIA E CREA UN VCF DEL NUMERO DI SCHEDE SCELTO
+
 from dbfread import DBF
 from collections import OrderedDict
 
@@ -11,14 +13,14 @@ print('Caricati numero di schede su ATTUALE: ' + str(len(table)))
 print()
 print()
 
-i = input('Stampare le ultime schede, inserire numero di inserimenti dall ultima: ')
+i = input('Di quante schede vuoi creare il file vcf? Delle ultime...: ')
 lung = len(table)
 i = lung - int(i)
 prima = i
 
 while i < lung:
     od = OrderedDict(table.records[i])
-    print (i)
+    print (str(od["SCHEDA"]))
     file = open("rubrica_"+str(OrderedDict(table.records[prima])["SCHEDA"]) + "-" + str(OrderedDict(table.records[lung-1])["SCHEDA"])+".vcf","a")
     file.write("BEGIN:VCARD\n")
     file.write("VERSION:2.1\n")
