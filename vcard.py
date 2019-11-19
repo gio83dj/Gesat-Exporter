@@ -14,11 +14,12 @@ print()
 i = input('Stampare le ultime schede, inserire numero di inserimenti dall ultima: ')
 lung = len(table)
 i = lung - int(i)
+prima = i
 
 while i < lung:
     od = OrderedDict(table.records[i])
     print (i)
-    file = open("rubrica.vcf","a")
+    file = open("rubrica_"+str(OrderedDict(table.records[prima])["SCHEDA"]) + "-" + str(OrderedDict(table.records[lung-1])["SCHEDA"])+".vcf","a")
     file.write("BEGIN:VCARD\n")
     file.write("VERSION:2.1\n")
     file.write("N:" + str(od["DESCCLI"]) + "\n")
