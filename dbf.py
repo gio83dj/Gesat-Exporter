@@ -89,6 +89,10 @@ while i < lungtot:
         print ('Consegnato: SI')
     elif str(od['UT_STATO']) == 'NN':
         print ('Consegnato: NO')
+    if str(od['FL_REV']) == 'R':
+        print ('COMPLETATO: SI')
+    elif str(od['FL_REV']) == '':
+        print ('COMPLETATO: NO')
     print ('----------------------------------------------------------------------------------------------------------------------------------')
     i = i + 1
 
@@ -132,6 +136,9 @@ while indice < lungtot:
     subelemento  = ET.SubElement(child,"stato")
     subelemento.text = str(od['UT_STATO'])
     
+    subelemento  = ET.SubElement(child,"chiusa")
+    subelemento.text = str(od['FL_REV'])
+    
     tree = ET.ElementTree(root_node)
     
     #print(od['SCHEDA'])
@@ -139,3 +146,5 @@ while indice < lungtot:
     indice = indice + 1
     
 tree.write('output.xml')
+
+esci = input ("Premi un tasto")
