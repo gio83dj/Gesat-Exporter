@@ -1,0 +1,5 @@
+open ftp.radiofranco.it
+4009976@aruba.it
+95xqwmmh
+cd radiofranco.it/
+put C:\Users\Giorgio\Desktop\Program\output.xml

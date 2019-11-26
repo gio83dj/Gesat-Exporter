@@ -13,7 +13,8 @@ print('Caricati numero di schede su ATTUALE: ' + str(len(table)))
 print()
 print()
 
-i = input('Di quante schede vuoi creare il file vcf? Delle ultime...: ')
+i=200
+#i = input('Di quante schede vuoi creare il file vcf? Delle ultime...: ')
 lung = len(table)
 i = lung - int(i)
 prima = i
@@ -31,3 +32,4 @@ while i < lung:
     file.close()
     i = i + 1
     
+print('ESPORTATO FILE vcf CON 200 SCHEDE')
